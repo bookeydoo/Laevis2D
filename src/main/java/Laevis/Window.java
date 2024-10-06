@@ -1,5 +1,6 @@
 package Laevis;
 
+import LaevisUtilities.Time;
 import org.lwjgl.*;
 import org.lwjgl.glfw.*;
 import org.lwjgl.opengl.*;
@@ -19,19 +20,38 @@ public class Window {
     private final String Title;
     private long glfwWindow;
     private boolean FadeToLightGreen;
-    private float r, g, b, a;
+    public float r, g, b, a;
 
     private static Window window = null;
+
+    private static Scene CurrentScene;
 
     //Constructor
     private Window() {
         this.Width = 1920;
         this.Height = 1080;
         this.Title = "GravesBullet";
+
         this.r = 1;
         this.g = 1;
         this.b = 1;
         this.a = 1;
+    }
+
+    //Change Scene
+    public static void ChangeScene(int NewScene) {
+        switch (NewScene) {
+            case 0:
+                CurrentScene = new LevelEditorScene();
+                //CurrentScene.InitScene();
+                break;
+            case 1:
+                CurrentScene = new LevelScene();
+                break;
+            default:
+                assert false: "Unknown Scene '" + NewScene + "'";
+                break;
+        }
     }
 
     //Get Window
@@ -96,10 +116,16 @@ public class Window {
         glfwShowWindow(glfwWindow);
 
         GL.createCapabilities();
+
+        Window.ChangeScene(0);
     }
 
     //Engine Loop
     public void EngineLoop() {
+        float BeginTime = Time.GetTime();
+        float EndTime;
+        float DeltaTime = -1.0f;
+
         while (!glfwWindowShouldClose(glfwWindow)) {
             glfwPollEvents();
 
@@ -107,6 +133,9 @@ public class Window {
 
             glClear(GL_COLOR_BUFFER_BIT);
 
+            if (DeltaTime >= 0) {
+                CurrentScene.SceneUpdate(DeltaTime);
+            }
             if (FadeToLightGreen) {
                 r = Math.max(r - 0.01f, 0);
                 g = Math.max(g - 0.01f, 0);
@@ -119,6 +148,10 @@ public class Window {
             }
 
             glfwSwapBuffers(glfwWindow);
+
+            EndTime = Time.GetTime();
+            DeltaTime = EndTime - BeginTime;
+            BeginTime = EndTime;
         }
     }
 }
