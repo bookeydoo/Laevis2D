@@ -1,6 +1,17 @@
 package Laevis;
 
-import java.awt.event.KeyEvent;
+import org.lwjgl.*;
+import org.lwjgl.glfw.*;
+import org.lwjgl.opengl.*;
+import org.lwjgl.system.*;
+
+import java.nio.*;
+
+import static org.lwjgl.glfw.Callbacks.*;
+import static org.lwjgl.glfw.GLFW.*;
+import static org.lwjgl.opengl.GL11.*;
+import static org.lwjgl.system.MemoryStack.*;
+import static org.lwjgl.system.MemoryUtil.*;
 
 public class LevelEditorScene extends Scene {
     private boolean ChangingScene = false;
@@ -14,7 +25,7 @@ public class LevelEditorScene extends Scene {
     public void SceneUpdate(float DeltaTime) {
         System.out.println((1.0f / DeltaTime) + "FPS");
 
-        if (!ChangingScene && KeyListener.isKeyPressed(KeyEvent.VK_SPACE)) {
+        if (!ChangingScene && KeyListener.isKeyPressed(GLFW_KEY_SPACE)) {
             ChangingScene = true;
         }
 
