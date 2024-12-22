@@ -1,5 +1,6 @@
 package Laevis;
 
+import LaevisUtilities.Time;
 import Renderer.Shader;
 import org.joml.Vector2f;
 import org.joml.Vector3f;
@@ -38,10 +39,10 @@ public class LevelEditorScene extends Scene {
     private float[] VertexArray = {
         //Position                 //Color
         //X, Y, Z                  //R, G, B, A
-        50.5f, -0.5f, 0.0f,         1.0f, 0.0f, 0.0f, 1.0f,    // Bottom Right
-        -50.5f, 50.5f, 0.0f,         0.0f, 1.0f, 0.0f, 1.0f,    // Top Left
-        50.5f, 50.5f, 0.0f,          0.0f, 0.0f, 1.0f, 1.0f,    // Top Right
-        -50.5f, -50.5f, 0.0f,        0.0f, 1.0f, 1.0f, 1.0f     // Bottom Left
+        35.5f, -35.5f, 0.0f,         1.0f, 0.0f, 0.0f, 1.0f,    // Bottom Right
+        -35.5f, 35.5f, 0.0f,         0.0f, 1.0f, 0.0f, 1.0f,    // Top Left
+        35.5f, 35.5f, 0.0f,          0.0f, 0.0f, 1.0f, 1.0f,    // Top Right
+        -35.5f, -35.5f, 0.0f,        0.0f, 1.0f, 1.0f, 1.0f     // Bottom Left
     };
 
     // Coounter ClockWise Order
@@ -102,11 +103,13 @@ public class LevelEditorScene extends Scene {
 
     @Override
     public void SceneUpdate(float DeltaTime) {
-        Camera.Position.x -= DeltaTime * 50.0f;
+        Camera.Position.x -= DeltaTime * 45.0f;
+        Camera.Position.y -= DeltaTime * 20.0f;
 
         DefaultShader.UseShader();
         DefaultShader.UploadMatrix4f("UniformProjectionMatrix", Camera.GetProjectionMatrix());
         DefaultShader.UploadMatrix4f("UniformViewMatrix", Camera.GetViewMatrix());
+        DefaultShader.UploadFloat("UniformTime", Time.GetTime());
 
         //Bind VAO
         glBindVertexArray(VAO_ID);

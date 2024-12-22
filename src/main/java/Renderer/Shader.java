@@ -1,6 +1,6 @@
 package Renderer;
 
-import org.joml.Matrix4f;
+import org.joml.*;
 import org.lwjgl.BufferUtils;
 
 import java.io.IOException;
@@ -56,36 +56,38 @@ public class Shader {
         System.out.println(FragmentSource);
     }
 
-    private int VertexID, FragmentID, ShaderProgramID;
+    private int ShaderProgramID;
+    private boolean BeingUsed = false;
+
 
     public void CompileShader() {
-        VertexID = glCreateShader(GL_VERTEX_SHADER);
-        glShaderSource(VertexID, VertexSource);
-        glCompileShader(VertexID);
+        int vertexID = glCreateShader(GL_VERTEX_SHADER);
+        glShaderSource(vertexID, VertexSource);
+        glCompileShader(vertexID);
 
-        int VertexSuccess = glGetShaderi(VertexID, GL_COMPILE_STATUS);
+        int VertexSuccess = glGetShaderi(vertexID, GL_COMPILE_STATUS);
         if (VertexSuccess == GL_FALSE) {
-            int Length = glGetShaderi(VertexID, GL_INFO_LOG_LENGTH);
+            int Length = glGetShaderi(vertexID, GL_INFO_LOG_LENGTH);
             System.out.println("Error: " + FilePath + "\n\t Vertex Shader Compilation Failed!");
-            System.out.println(glGetShaderInfoLog(VertexID, Length));
+            System.out.println(glGetShaderInfoLog(vertexID, Length));
             assert false : "";
         }
 
-        FragmentID = glCreateShader(GL_FRAGMENT_SHADER);
-        glShaderSource(FragmentID, FragmentSource);
-        glCompileShader(FragmentID);
+        int fragmentID = glCreateShader(GL_FRAGMENT_SHADER);
+        glShaderSource(fragmentID, FragmentSource);
+        glCompileShader(fragmentID);
 
-        int FragmentSuccess = glGetShaderi(FragmentID, GL_COMPILE_STATUS);
+        int FragmentSuccess = glGetShaderi(fragmentID, GL_COMPILE_STATUS);
         if (FragmentSuccess == GL_FALSE) {
-            int Length = glGetShaderi(FragmentID, GL_INFO_LOG_LENGTH);
+            int Length = glGetShaderi(fragmentID, GL_INFO_LOG_LENGTH);
             System.out.println("Error: " + FilePath + "\n\t Fragment Shader Compilation Failed!");
-            System.out.println(glGetShaderInfoLog(FragmentID, Length));
+            System.out.println(glGetShaderInfoLog(fragmentID, Length));
             assert false : "";
         }
 
         ShaderProgramID = glCreateProgram();
-        glAttachShader(ShaderProgramID, VertexID);
-        glAttachShader(ShaderProgramID, FragmentID);
+        glAttachShader(ShaderProgramID, vertexID);
+        glAttachShader(ShaderProgramID, fragmentID);
         glLinkProgram(ShaderProgramID);
 
         int ShaderProgramIDSuccess = glGetProgrami(ShaderProgramID, GL_LINK_STATUS);
@@ -98,18 +100,69 @@ public class Shader {
     }
 
     public void UseShader() {
-        //Bind Shader Program
-        glUseProgram(ShaderProgramID);
+        if (!BeingUsed) {
+            //Bind Shader Program
+            glUseProgram(ShaderProgramID);
+            BeingUsed = true;
+        }
     }
 
     public void DetachShader() {
         glUseProgram(0);
+        BeingUsed = false;
     }
 
     public void UploadMatrix4f(String VariableName, Matrix4f Matrix4) {
         int VariableLocation = glGetUniformLocation(ShaderProgramID, VariableName);
+        UseShader();
         FloatBuffer MatrixBuffer = BufferUtils.createFloatBuffer(16);
         Matrix4.get(MatrixBuffer);
         glUniformMatrix4fv(VariableLocation, false, MatrixBuffer);
+    }
+
+    public void UploadMatrix3f(String VariableName, Matrix3f Matrix3) {
+        int VariableLocation = glGetUniformLocation(ShaderProgramID, VariableName);
+        UseShader();
+        FloatBuffer MatrixBuffer = BufferUtils.createFloatBuffer(9);
+        Matrix3.get(MatrixBuffer);
+        glUniformMatrix3fv(VariableLocation, false, MatrixBuffer);
+    }
+
+    public void UploadMatrix2f(String VariableName, Matrix2f Matrix2) {
+        int VariableLocation = glGetUniformLocation(ShaderProgramID, VariableName);
+        UseShader();
+        FloatBuffer MatrixBuffer = BufferUtils.createFloatBuffer(4);
+        Matrix2.get(MatrixBuffer);
+        glUniformMatrix2fv(VariableLocation, false, MatrixBuffer);
+    }
+
+    public void UploadVector4f(String VariableName, Vector4f Vector4) {
+        int VariableLocation = glGetUniformLocation(ShaderProgramID, VariableName);
+        UseShader();
+        glUniform4f(VariableLocation, Vector4.x, Vector4.y, Vector4.z, Vector4.w);
+    }
+
+    public void UploadVector3f(String VariableName, Vector3f Vector3) {
+        int VariableLocation = glGetUniformLocation(ShaderProgramID, VariableName);
+        UseShader();
+        glUniform3f(VariableLocation, Vector3.x, Vector3.y, Vector3.z);
+    }
+
+    public void UploadVector2f(String VariableName, Vector2f Vector2) {
+        int VariableLocation = glGetUniformLocation(ShaderProgramID, VariableName);
+        UseShader();
+        glUniform2f(VariableLocation, Vector2.x, Vector2.y);
+    }
+
+    public void UploadFloat(String VariableName, float Value) {
+        int VariableLocation = glGetUniformLocation(ShaderProgramID, VariableName);
+        UseShader();
+        glUniform1f(VariableLocation, Value);
+    }
+
+    public void UploadInt(String VariableName, int Value) {
+        int VariableLocation = glGetUniformLocation(ShaderProgramID, VariableName);
+        UseShader();
+        glUniform1i(VariableLocation, Value);
     }
 }
