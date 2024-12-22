@@ -9,6 +9,11 @@ public class LevelScene extends Scene {
     }
 
     @Override
+    public void InitScene() {
+
+    }
+
+    @Override
     public void SceneUpdate(float DeltaTime) {
 
     }

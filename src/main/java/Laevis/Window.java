@@ -4,14 +4,10 @@ import LaevisUtilities.Time;
 import org.lwjgl.*;
 import org.lwjgl.glfw.*;
 import org.lwjgl.opengl.*;
-import org.lwjgl.system.*;
-
-import java.nio.*;
 
 import static org.lwjgl.glfw.Callbacks.*;
 import static org.lwjgl.glfw.GLFW.*;
 import static org.lwjgl.opengl.GL11.*;
-import static org.lwjgl.system.MemoryStack.*;
 import static org.lwjgl.system.MemoryUtil.*;
 
 public class Window {
@@ -19,7 +15,7 @@ public class Window {
     private final int Height;
     private final String Title;
     private long glfwWindow;
-    private boolean FadeToLightGreen;
+    private boolean FadeToBlack;
     public float r, g, b, a;
 
     private static Window window = null;
@@ -30,7 +26,7 @@ public class Window {
     private Window() {
         this.Width = 1920;
         this.Height = 1080;
-        this.Title = "GravesBullet";
+        this.Title = "Game Engine";
 
         this.r = 1;
         this.g = 1;
@@ -43,10 +39,11 @@ public class Window {
         switch (NewScene) {
             case 0:
                 CurrentScene = new LevelEditorScene();
-                //CurrentScene.InitScene();
+                CurrentScene.InitScene();
                 break;
             case 1:
                 CurrentScene = new LevelScene();
+                CurrentScene.InitScene();
                 break;
             default:
                 assert false: "Unknown Scene '" + NewScene + "'";
@@ -136,7 +133,7 @@ public class Window {
             if (DeltaTime >= 0) {
                 CurrentScene.SceneUpdate(DeltaTime);
             }
-            if (FadeToLightGreen) {
+            if (FadeToBlack) {
                 r = Math.max(r - 0.01f, 0);
                 g = Math.max(g - 0.01f, 0);
                 b = Math.max(b - 0.01f, 0);
@@ -144,7 +141,7 @@ public class Window {
             }
 
             if (KeyListener.isKeyPressed(GLFW_KEY_SPACE)) {
-                FadeToLightGreen = true;
+                FadeToBlack = true;
             }
 
             glfwSwapBuffers(glfwWindow);
