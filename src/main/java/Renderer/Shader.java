@@ -165,4 +165,10 @@ public class Shader {
         UseShader();
         glUniform1i(VariableLocation, Value);
     }
+
+    public void UploadTexture(String VariableName, int TextureSlot) {
+        int VariableLocation = glGetUniformLocation(ShaderProgramID, VariableName);
+        UseShader();
+        glUniform1i(VariableLocation, TextureSlot);
+    }
 }

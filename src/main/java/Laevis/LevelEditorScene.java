@@ -2,6 +2,7 @@ package Laevis;
 
 import LaevisUtilities.Time;
 import Renderer.Shader;
+import Renderer.Texture;
 import org.joml.Vector2f;
 import org.joml.Vector3f;
 import org.lwjgl.*;
@@ -39,10 +40,10 @@ public class LevelEditorScene extends Scene {
     private float[] VertexArray = {
         //Position                //Color                      //UV Coordinates
         //X, Y, Z                 //R, G, B, A
-        100f, 0.0f, 0.0f,         1.0f, 0.0f, 0.0f, 1.0f,      1, 0,    // Bottom Right
-        0.0f, 100f, 0.0f,         0.0f, 1.0f, 0.0f, 1.0f,      0, 1,    // Top Left
-        100f, 100f, 0.0f,         0.0f, 0.0f, 1.0f, 1.0f,      1, 1,    // Top Right
-        0.0f, 0.0f, 0.0f,         0.0f, 1.0f, 1.0f, 1.0f,      0, 0     // Bottom Left
+        100f, 0.0f, 0.0f,         1.0f, 0.0f, 0.0f, 1.0f,      1, 1,    // Bottom Right
+        0.0f, 100f, 0.0f,         0.0f, 1.0f, 0.0f, 1.0f,      0, 0,    // Top Left
+        100f, 100f, 0.0f,         0.0f, 0.0f, 1.0f, 1.0f,      1, 0,    // Top Right
+        0.0f, 0.0f, 0.0f,         0.0f, 1.0f, 1.0f, 1.0f,      0, 1     // Bottom Left
     };
 
     // Coounter ClockWise Order
@@ -54,6 +55,7 @@ public class LevelEditorScene extends Scene {
     private int VAO_ID, VBO_ID, EBO_ID;
 
     private Shader DefaultShader;
+    private Texture TestTexture;
 
     public LevelEditorScene() {
 
@@ -67,6 +69,8 @@ public class LevelEditorScene extends Scene {
         DefaultShader = new Shader("Assets/Shaders/default.glsl");
         DefaultShader.CompileShader();
 
+        //this.TestTexture = new Texture("Assets/Images/testImage.jpg");
+        this.TestTexture = new Texture("Assets/Images/coolcat.jpg");
         //Generate VAO, VBO, EBO
         VAO_ID = glGenVertexArrays();
         glBindVertexArray(VAO_ID);
@@ -91,14 +95,17 @@ public class LevelEditorScene extends Scene {
         //Add the Vertex Attribute Pointers
         int PositionsSize = 3;
         int ColorSize = 4;
-        int FloatSizeBytes = 4;
-        int VertexSizeBytes = (PositionsSize + ColorSize) * FloatSizeBytes;
+        int UVSize = 2;
+        int VertexSizeBytes = (PositionsSize + ColorSize + UVSize) * Float.BYTES;
 
         glVertexAttribPointer(0, PositionsSize, GL_FLOAT, false, VertexSizeBytes, 0);
         glEnableVertexAttribArray(0);
 
-        glVertexAttribPointer(1, ColorSize, GL_FLOAT, false, VertexSizeBytes, PositionsSize * FloatSizeBytes);
+        glVertexAttribPointer(1, ColorSize, GL_FLOAT, false, VertexSizeBytes, PositionsSize * Float.BYTES);
         glEnableVertexAttribArray(1);
+
+        glVertexAttribPointer(2, UVSize, GL_FLOAT, false, VertexSizeBytes, (PositionsSize + ColorSize) * Float.BYTES);
+        glEnableVertexAttribArray(2);
     }
 
     @Override
@@ -107,6 +114,11 @@ public class LevelEditorScene extends Scene {
         Camera.Position.y -= DeltaTime * 20.0f;
 
         DefaultShader.UseShader();
+
+        DefaultShader.UploadTexture("TextureSampler", 0);
+        glActiveTexture(GL_TEXTURE0);
+        TestTexture.BindTexture();
+
         DefaultShader.UploadMatrix4f("UniformProjectionMatrix", Camera.GetProjectionMatrix());
         DefaultShader.UploadMatrix4f("UniformViewMatrix", Camera.GetViewMatrix());
         DefaultShader.UploadFloat("UniformTime", Time.GetTime());
