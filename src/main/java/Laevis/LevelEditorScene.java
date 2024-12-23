@@ -48,7 +48,7 @@ public class LevelEditorScene extends Scene {
         gameObject3.AddComponent(new SpriteRenderer(Sprites.GetSprite(2)));
         this.AddGameObjectToScene(gameObject3);
 
-        GameObject gameObject4 = new GameObject("Object 3", new Transform(TransformPosition4, TransformScale4));
+        GameObject gameObject4 = new GameObject("Object 4", new Transform(TransformPosition4, TransformScale4));
         gameObject4.AddComponent(new SpriteRenderer(Sprites.GetSprite(3)));
         this.AddGameObjectToScene(gameObject4);
     }
