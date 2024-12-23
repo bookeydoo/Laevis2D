@@ -11,6 +11,7 @@ import static org.lwjgl.stb.STBImage.*;
 public class Texture {
     private String FilePath;
     private int TextureID;
+    private int Width, Height;
 
     public Texture(String FilePath) {
         this.FilePath = FilePath;
@@ -39,6 +40,9 @@ public class Texture {
         ByteBuffer Image = stbi_load(FilePath, Width, Height, Channels, 0);
 
         if (Image != null) {
+            this.Width = Width.get(0);
+            this.Height = Height.get(0);
+
             if (Channels.get(0) == 3) {
                 glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, Width.get(0), Height.get(0), 0, GL_RGB, GL_UNSIGNED_BYTE, Image);
             } else if (Channels.get(0) == 4) {
@@ -59,5 +63,13 @@ public class Texture {
 
     public void UnbindTexture() {
         glBindTexture(GL_TEXTURE_2D, 0);
+    }
+
+    public int GetWidth() {
+        return this.Width;
+    }
+
+    public int GetHeight() {
+        return this.Height;
     }
 }
