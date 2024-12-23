@@ -1,9 +1,12 @@
 package Laevis;
 
+import Renderer.Renderer;
+
 import java.util.ArrayList;
 import java.util.List;
 
 public abstract class Scene {
+    private Renderer Renderer;
     protected Camera Camera;
     private boolean IsRunning = false;
     protected List<GameObject> GameObjects = new ArrayList<>();
@@ -19,6 +22,7 @@ public abstract class Scene {
     public void StartScene() {
         for (GameObject gameObject : GameObjects) {
             gameObject.StartGameObjects();
+            this.Renderer.AddRenderer(gameObject);
         }
         IsRunning = true;
     }
@@ -29,8 +33,13 @@ public abstract class Scene {
         } else {
             GameObjects.add(gameObject);
             gameObject.StartGameObjects();
+            this.Renderer.AddRenderer(gameObject);
         }
     }
 
     public abstract void SceneUpdate(float DeltaTime);
+
+    public Camera Camera() {
+        return this.Camera;
+    }
 }

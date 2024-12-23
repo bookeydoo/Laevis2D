@@ -61,6 +61,11 @@ public class Window {
         return Window.window;
     }
 
+    //Get Scene
+    public static Scene GetScene() {
+        return Get().CurrentScene;
+    }
+
     //Run Engine
     public void Run() {
         System.out.println("LWJGL Version: " + Version.getVersion());

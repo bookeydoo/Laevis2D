@@ -1,20 +1,26 @@
 package Components;
 
 import Laevis.Component;
+import org.joml.Vector4f;
 
 public class SpriteRenderer extends Component {
-    private boolean FirstTime = false;
+    private Vector4f Color;
+
+    public SpriteRenderer(Vector4f Color) {
+        this.Color = Color;
+    }
 
     @Override
     public void StartComponent() {
-        System.out.println("I am Starting");
+
     }
 
     @Override
     public void UpdateComponent(float DeltaTime) {
-        if (!FirstTime) {
-            System.out.println("I am Updating");
-            FirstTime = true;
-        }
+
+    }
+
+    public Vector4f GetColor() {
+        return this.Color;
     }
 }
