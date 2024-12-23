@@ -15,7 +15,7 @@ import static org.lwjgl.opengl.GL20.glGetShaderInfoLog;
 public class Shader {
     private String VertexSource;
     private String FragmentSource;
-    private String FilePath;
+    private final String FilePath;
 
     public Shader(String FilePath) {
         this.FilePath = FilePath;
@@ -51,9 +51,6 @@ public class Shader {
             e.printStackTrace();
             assert false : "Error: Could not open Shader File: " + FilePath + " ";
         }
-
-        System.out.println(VertexSource);
-        System.out.println(FragmentSource);
     }
 
     private int ShaderProgramID;

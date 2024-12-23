@@ -1,5 +1,6 @@
 package Laevis;
 
+import Components.SpriteRenderer;
 import LaevisUtilities.Time;
 import Renderer.Shader;
 import Renderer.Texture;
@@ -19,22 +20,6 @@ import static org.lwjgl.system.MemoryStack.*;
 import static org.lwjgl.system.MemoryUtil.*;
 
 public class LevelEditorScene extends Scene {
-    private String VertexShaderSource = "#version 330 core\n" +
-            "layout (location = 0) in vec3 AttributePosition;\n" +
-            "layout (location = 1) in vec4 AttributeColor;\n" +
-            "out vec4 FragmentColor;\n" +
-            "void main() {\n" +
-            "    FragmentColor = AttributeColor;\n" +
-            "    gl_Position = vec4(AttributePosition, 1.0);\n" +
-            "}";
-
-    private String FragmentShaderSource = "#version 330 core\n" +
-            "in vec4 FragmentColor;\n" +
-            "out vec4 Color;\n" +
-            "void main() {\n" +
-            "    Color = FragmentColor;\n" +
-            "}";
-
     private int VertexID, FragmentID, ShaderProgram;
 
     private float[] VertexArray = {
@@ -57,12 +42,20 @@ public class LevelEditorScene extends Scene {
     private Shader DefaultShader;
     private Texture TestTexture;
 
+    GameObject TestObject;
+    private boolean FirstTime = false;
+
     public LevelEditorScene() {
 
     }
 
     @Override
     public void InitScene() {
+        System.out.println("Creating Test Object");
+        this.TestObject = new GameObject("test object");
+        this.TestObject.AddComponent(new SpriteRenderer());
+        this.AddGameObjectToScene(this.TestObject);
+
         Vector2f Position = new Vector2f();
         this.Camera = new Camera(Position);
 
@@ -70,7 +63,9 @@ public class LevelEditorScene extends Scene {
         DefaultShader.CompileShader();
 
         //this.TestTexture = new Texture("Assets/Images/testImage.jpg");
-        this.TestTexture = new Texture("Assets/Images/coolcat.jpg");
+        //this.TestTexture = new Texture("Assets/Images/coolcat.jpg");
+        this.TestTexture = new Texture("Assets/Images/testImage.png");
+
         //Generate VAO, VBO, EBO
         VAO_ID = glGenVertexArrays();
         glBindVertexArray(VAO_ID);
@@ -139,5 +134,17 @@ public class LevelEditorScene extends Scene {
         glBindVertexArray(0);
 
         DefaultShader.DetachShader();
+
+        if (!FirstTime) {
+            System.out.println("Creating Game Object!");
+            GameObject gameObject = new GameObject("Game Test 2");
+            gameObject.AddComponent(new SpriteRenderer());
+            this.AddGameObjectToScene(gameObject);
+            FirstTime = true;
+        }
+
+        for (GameObject gameObject : this.GameObjects) {
+            gameObject.UpdateGameObjects(DeltaTime);
+        }
     }
 }

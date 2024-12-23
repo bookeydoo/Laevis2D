@@ -40,10 +40,12 @@ public class Window {
             case 0:
                 CurrentScene = new LevelEditorScene();
                 CurrentScene.InitScene();
+                CurrentScene.StartScene();
                 break;
             case 1:
                 CurrentScene = new LevelScene();
                 CurrentScene.InitScene();
+                CurrentScene.StartScene();
                 break;
             default:
                 assert false: "Unknown Scene '" + NewScene + "'";
