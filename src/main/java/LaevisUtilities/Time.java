@@ -1,9 +1,9 @@
 package LaevisUtilities;
 
-public class Time {
-    public static float TimeStarted = System.nanoTime();
+import static org.lwjgl.glfw.GLFW.glfwGetTime;
 
+public class Time {
     public static float GetTime() {
-        return (float) ((System.nanoTime() - TimeStarted) * 1E-9);
+        return (float) glfwGetTime();
     }
 }

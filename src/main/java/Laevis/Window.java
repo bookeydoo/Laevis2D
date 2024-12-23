@@ -28,10 +28,10 @@ public class Window {
         this.Height = 1080;
         this.Title = "Game Engine";
 
-        this.r = 1;
-        this.g = 1;
-        this.b = 1;
-        this.a = 1;
+        this.r = 0;
+        this.g = 0;
+        this.b = 0;
+        this.a = 0;
     }
 
     //Change Scene
