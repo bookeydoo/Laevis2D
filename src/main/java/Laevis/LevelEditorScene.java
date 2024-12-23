@@ -1,5 +1,6 @@
 package Laevis;
 
+import Components.Sprite;
 import Components.SpriteRenderer;
 import LaevisUtilities.AssetPool;
 import Renderer.Renderer;
@@ -24,11 +25,11 @@ public class LevelEditorScene extends Scene {
         Vector2f TransformScale2 = new Vector2f(256, 256);
 
         GameObject gameObject1 = new GameObject("Object 1", new Transform(TransformPosition1, TransformScale1));
-        gameObject1.AddComponent(new SpriteRenderer(AssetPool.GetTexture("Assets/Images/testImage.png")));
+        gameObject1.AddComponent(new SpriteRenderer(new Sprite(AssetPool.GetTexture("Assets/Images/testImage.png"))));
         this.AddGameObjectToScene(gameObject1);
 
         GameObject gameObject2 = new GameObject("Object 1", new Transform(TransformPosition2, TransformScale2));
-        gameObject2.AddComponent(new SpriteRenderer(AssetPool.GetTexture("Assets/Images/testImage2.png")));
+        gameObject2.AddComponent(new SpriteRenderer(new Sprite(AssetPool.GetTexture("Assets/Images/testImage2.png"))));
         this.AddGameObjectToScene(gameObject2);
 
         LoadResources();

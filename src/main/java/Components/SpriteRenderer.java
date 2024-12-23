@@ -9,14 +9,15 @@ public class SpriteRenderer extends Component {
     private Vector4f Color;
     private Vector2f[] TextureCoordinates;
     private Texture Texture;
+    private Sprite Sprite;
 
     public SpriteRenderer(Vector4f Color) {
-        this.Texture = null;
         this.Color = Color;
+        this.Sprite = new Sprite(null);
     }
 
-    public SpriteRenderer(Texture Texture) {
-        this.Texture = Texture;
+    public SpriteRenderer(Sprite Sprite) {
+        this.Sprite = Sprite;
         this.Color = new Vector4f(1, 1, 1, 1);
     }
 
@@ -35,16 +36,10 @@ public class SpriteRenderer extends Component {
     }
 
     public Texture GetTexture() {
-        return this.Texture;
+        return Sprite.GetTexture();
     }
 
     public Vector2f[] GetTextureCoordinates() {
-        Vector2f[] TextureCoordinates = {
-            new Vector2f(1, 1),
-            new Vector2f(1, 0),
-            new Vector2f(0, 0),
-            new Vector2f(0, 1)
-        };
-        return TextureCoordinates;
+        return Sprite.GetTextureCoordinates();
     }
 }

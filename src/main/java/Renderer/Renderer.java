@@ -26,9 +26,12 @@ public class Renderer {
 
         for (RenderBatch Batch : Batches) {
             if (Batch.GetHasRoom()) {
-                Batch.AddSprite(Sprite);
-                Added = true;
-                break;
+                Texture texture = Sprite.GetTexture();
+                if (texture == null || (Batch.GetHasTexture(texture) || Batch.GetHasTextureRoom())) {
+                    Batch.AddSprite(Sprite);
+                    Added = true;
+                    break;
+                }
             }
         }
 
