@@ -2,6 +2,7 @@ package Renderer;
 
 import Components.SpriteRenderer;
 import Laevis.Window;
+import LaevisUtilities.AssetPool;
 import kotlin.jvm.internal.PropertyReference0Impl;
 import org.joml.Vector4f;
 
@@ -30,8 +31,7 @@ public class RenderBatch {
     private Shader Shader;
 
     public RenderBatch(int MaximumBatchSize) {
-        Shader = new Shader("Assets/Shaders/default.glsl");
-        Shader.CompileShader();
+        Shader = AssetPool.GetShader("Assets/Shaders/default.glsl");
         this.Sprites = new SpriteRenderer[MaximumBatchSize];
         this.MaximumBatchSize = MaximumBatchSize;
 

@@ -1,6 +1,7 @@
 package Laevis;
 
 import Components.SpriteRenderer;
+import LaevisUtilities.AssetPool;
 import Renderer.Renderer;
 import org.joml.Vector2f;
 import org.joml.Vector4f;
@@ -34,6 +35,12 @@ public class LevelEditorScene extends Scene {
                 this.AddGameObjectToScene(gameObject);
             }
         }
+
+        LoadResources();
+    }
+
+    private void LoadResources() {
+        AssetPool.GetShader("Assets/Shaders/default.glsl");
     }
 
     @Override
