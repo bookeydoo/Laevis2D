@@ -1,6 +1,7 @@
 package Laevis;
 
 import Renderer.Renderer;
+import imgui.ImGui;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -10,7 +11,7 @@ public abstract class Scene {
     protected Camera Camera;
     private boolean IsRunning = false;
     protected List<GameObject> GameObjects = new ArrayList<>();
-
+    protected  GameObject activegameobject=null;
     public Scene() {
 
     }
@@ -38,6 +39,17 @@ public abstract class Scene {
     }
 
     public abstract void SceneUpdate(float DeltaTime);
+
+    public void sceneImGui(){
+        if(activegameobject !=null){
+            ImGui.begin("inspector");
+            activegameobject.imgui();
+            ImGui.end();
+        }
+    }
+    public void imgui(){
+
+    }
 
     public Camera Camera() {
         return this.Camera;

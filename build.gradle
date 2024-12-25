@@ -8,6 +8,7 @@ project.ext.lwjglVersion = "3.3.4"
 project.ext.jomlVersion = "1.10.7"
 project.ext.lwjglNatives = "natives-windows"
 
+project.ext.imguiVersion="1.87.7"
 repositories {
     mavenCentral()
 }
@@ -16,6 +17,12 @@ dependencies {
     //Java Stuff
     testImplementation platform('org.junit:junit-bom:5.10.0')
     testImplementation 'org.junit.jupiter:junit-jupiter'
+
+    //ImGui for java
+    implementation "io.github.spair:imgui-java-app:${project.ext.imguiVersion}"
+    // Use project.version for imgui natives
+    implementation "io.github.spair:imgui-java-natives-windows:${project.ext.imguiVersion}"
+
 
     //LWJGL Stuff
     implementation platform("org.lwjgl:lwjgl-bom:$lwjglVersion")

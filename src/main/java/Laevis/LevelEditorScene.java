@@ -5,6 +5,7 @@ import Components.SpriteRenderer;
 import Components.SpriteSheet;
 import LaevisUtilities.AssetPool;
 import Renderer.Renderer;
+import imgui.ImGui;
 import org.joml.Vector2f;
 import org.joml.Vector4f;
 
@@ -88,5 +89,11 @@ public class LevelEditorScene extends Scene {
             gameObject.UpdateGameObjects(DeltaTime);
         }
         this.Renderer.Render();
+    }
+    @Override
+    public void imgui(){
+        ImGui.begin("test window");
+        ImGui.text("some random text");
+        ImGui.end();
     }
 }
