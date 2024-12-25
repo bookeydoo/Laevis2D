@@ -7,17 +7,20 @@ public class GameObject {
     private String Name;
     private List<Component> Components;
     public Transform Transform;
+    private int zIndex;
 
     public GameObject(String Name) {
         this.Name = Name;
         this.Components = new ArrayList<>();
         this.Transform = new Transform();
+        this.zIndex=0;
     }
 
-    public GameObject(String Name, Transform Transform) {
+    public GameObject(String Name, Transform Transform,int zIndex) {
         this.Name = Name;
         this.Components = new ArrayList<>();
         this.Transform = Transform;
+        this.zIndex=zIndex;
     }
 
     public <T extends Component> T GetComponent(Class<T> ComponentClass) {
@@ -61,5 +64,8 @@ public class GameObject {
         for (int i = 0; i < Components.size(); i++) {
             Components.get(i).StartComponent();
         }
+    }
+    public int getzIndex(){
+        return this.zIndex;
     }
 }

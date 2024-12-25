@@ -14,6 +14,7 @@ public class LevelEditorScene extends Scene {
     private GameObject gameObject1;
     private Vector2f CameraOffsetLocal = new Vector2f(-50, 0);
 
+
     public LevelEditorScene() {
 
     }
@@ -38,20 +39,21 @@ public class LevelEditorScene extends Scene {
         Vector2f TransformPosition4 = new Vector2f(460, 100);
         Vector2f TransformScale4 = new Vector2f(128, 128);
 
-        gameObject1 = new GameObject("Object 1", new Transform(TransformPosition1, TransformScale1));
+        //added random z index values
+        gameObject1 = new GameObject("Object 1", new Transform(TransformPosition1, TransformScale1),-1);
         gameObject1.AddComponent(new SpriteRenderer(Sprites.GetSprite(0)));
         this.AddGameObjectToScene(gameObject1);
 
-        GameObject gameObject2 = new GameObject("Object 2", new Transform(TransformPosition2, TransformScale2));
+        GameObject gameObject2 = new GameObject("Object 2", new Transform(TransformPosition2, TransformScale2),2);
         gameObject2.AddComponent(new SpriteRenderer(Sprites.GetSprite(1)));
         this.AddGameObjectToScene(gameObject2);
 
 
-        GameObject gameObject3 = new GameObject("Object 3", new Transform(TransformPosition3, TransformScale3));
+        GameObject gameObject3 = new GameObject("Object 3", new Transform(TransformPosition3, TransformScale3),2);
         gameObject3.AddComponent(new SpriteRenderer(Sprites.GetSprite(2)));
         this.AddGameObjectToScene(gameObject3);
 
-        GameObject gameObject4 = new GameObject("Object 4", new Transform(TransformPosition4, TransformScale4));
+        GameObject gameObject4 = new GameObject("Object 4", new Transform(TransformPosition4, TransformScale4),-1);
         gameObject4.AddComponent(new SpriteRenderer(Sprites.GetSprite(3)));
         this.AddGameObjectToScene(gameObject4);
     }

@@ -4,15 +4,18 @@ import Components.SpriteRenderer;
 import Laevis.Window;
 import LaevisUtilities.AssetPool;
 import kotlin.jvm.internal.PropertyReference0Impl;
+import kotlin.time.ComparableTimeMark;
+import org.jetbrains.annotations.NotNull;
 import org.joml.Vector2f;
 import org.joml.Vector4f;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 
 import static org.lwjgl.opengl.GL33.*;
 
-public class RenderBatch {
+public class RenderBatch implements Comparable<RenderBatch> {
     /* Vertex
      * Position          Color                           Texture Coordinates         Texture ID
      * float, float,     float, float, float, float,     float, float,               float
@@ -39,8 +42,10 @@ public class RenderBatch {
     private int VAO_ID, VBO_ID;
     private int MaximumBatchSize;
     private Shader Shader;
+    private int zIndex;
 
-    public RenderBatch(int MaximumBatchSize) {
+    public RenderBatch(int MaximumBatchSize, int zIndex) {
+        this.zIndex=zIndex;
         Shader = AssetPool.GetShader("Assets/Shaders/default.glsl");
         this.Sprites = new SpriteRenderer[MaximumBatchSize];
         this.MaximumBatchSize = MaximumBatchSize;
@@ -232,5 +237,13 @@ public class RenderBatch {
 
     public boolean GetHasTexture(Texture texture) {
         return this.Textures.contains(texture);
+    }
+    public int getzIndex(){
+        return this.zIndex;
+    }
+
+    @Override
+    public int compareTo(RenderBatch o) {
+        return Integer.compare(this.zIndex,o.zIndex);
     }
 }

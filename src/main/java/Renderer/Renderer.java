@@ -4,6 +4,8 @@ import Components.SpriteRenderer;
 import Laevis.GameObject;
 
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 
 public class Renderer {
@@ -25,7 +27,7 @@ public class Renderer {
         boolean Added = false;
 
         for (RenderBatch Batch : Batches) {
-            if (Batch.GetHasRoom()) {
+            if (Batch.GetHasRoom() && (Batch.getzIndex() == Sprite.GameObject.getzIndex() )){
                 Texture texture = Sprite.GetTexture();
                 if (texture == null || (Batch.GetHasTexture(texture) || Batch.GetHasTextureRoom())) {
                     Batch.AddSprite(Sprite);
@@ -36,10 +38,11 @@ public class Renderer {
         }
 
         if (!Added) {
-            RenderBatch NewBatch = new RenderBatch(MAX_BATCH_SIZE);
+            RenderBatch NewBatch = new RenderBatch(MAX_BATCH_SIZE,Sprite.GameObject.getzIndex());
             NewBatch.StartBatchRenderer();
             Batches.add(NewBatch);
             NewBatch.AddSprite(Sprite);
+            Collections.sort(Batches);
         }
     }
 
