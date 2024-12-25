@@ -46,7 +46,11 @@ public class   ImGuiLayer {
         io.setConfigFlags(ImGuiConfigFlags.NavEnableKeyboard);
         io.setBackendFlags(ImGuiBackendFlags.HasMouseCursors);
         io.setBackendPlatformName("imgui_java_impl_glfw");//i have no idea what this does
+        io.addConfigFlags(ImGuiConfigFlags.ViewportsEnable);
 
+        io.setDisplaySize(1920,1080);
+        io.getFonts().addFontDefault();
+        io.getFonts().build();
 
         //keyboard mapping for imgui , used for io.keydown
         final int[] keyMap = new int[ImGuiKey.COUNT];
@@ -125,9 +129,9 @@ public class   ImGuiLayer {
                 }
             }
         });
-*/
 
-        implGl3.init("#version 330 core");
+
+ */
     }
 
 

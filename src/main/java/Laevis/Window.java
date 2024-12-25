@@ -75,17 +75,16 @@ public class Window {
 
     //init window very important for it to work
     public void init(){
-        EngineInit();
-        initImgui();
+
+        imGuiLayer=new ImGuiLayer();
         imGuiLayer.imguiglfw.init(glfwWindow,true);
-        imGuiLayer.implGl3.init();
+        imGuiLayer.implGl3.init("#version 330 core");
     }
 
     //Run Engine
     public void Run() {
         System.out.println("LWJGL Version: " + Version.getVersion());
 
-        EngineInit();
         EngineLoop();
 
         glfwFreeCallbacks(glfwWindow);
@@ -98,7 +97,7 @@ public class Window {
     }
 
     //Initialize Engine
-    private void EngineInit() { //init
+    public void EngineInit() { //init
         // Setup an error callback. The default implementation
         // will print the error message in System.err.
         GLFWErrorCallback.createPrint(System.err).set();
@@ -132,13 +131,6 @@ public class Window {
         Window.ChangeScene(0);
     }
 
-    public void initImgui(){
-
-        this.imGuiLayer=new ImGuiLayer();
-        ImGui.createContext();
-        ImGuiIO io=ImGui.getIO();
-        io.addConfigFlags(ImGuiConfigFlags.ViewportsEnable);
-    }
     //Engine Loop
     public void EngineLoop() {
         float BeginTime = Time.GetTime();
@@ -146,7 +138,7 @@ public class Window {
         float DeltaTime = -1.0f;
 
         while (!glfwWindowShouldClose(glfwWindow)) {
-            glfwPollEvents();
+
 
             glClearColor(r, g, b, a);
 
@@ -168,10 +160,21 @@ public class Window {
             if(DeltaTime>=0){
                 CurrentScene.SceneUpdate(DeltaTime);
             }
-            imGuiLayer.implGl3.newFrame();
-            imGuiLayer.imguiglfw.newFrame();
+            ImGui.newFrame();                      // Start a new frame for ImGui (sets up the internal state for a new frame)
+            imGuiLayer.implGl3.newFrame();          // Prepare OpenGL renderer for the new frame
+            imGuiLayer.imguiglfw.newFrame();        // Prepare GLFW for the new frame
 
+            imGuiLayer.ImGui();                    // Render your ImGui UI elements (create windows, buttons, etc.)
+
+            ImGui.endFrame();
+            ImGui.updatePlatformWindows();
+            ImGui.renderPlatformWindowsDefault();
+
+            ImGui.render();                         // Render the ImGui draw data to be processed by the renderer
+            imGuiLayer.implGl3.renderDrawData(ImGui.getDrawData());
             glfwSwapBuffers(glfwWindow);
+            glfwPollEvents();
+
 
             EndTime = Time.GetTime();
             DeltaTime = EndTime - BeginTime;
