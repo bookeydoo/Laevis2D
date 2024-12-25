@@ -103,9 +103,20 @@ public class RenderBatch {
     }
 
     public void RenderTheRenderBatch() {
-        glBindBuffer(GL_ARRAY_BUFFER, VBO_ID);
-        glBufferSubData(GL_ARRAY_BUFFER, 0, Vertices);
-
+        boolean rebufferdata=false;
+        for(int i=0;i<NumberOfSprites;i++){
+            SpriteRenderer spr=Sprites[i];
+            if(spr.isDirty()){
+                LoadVertexProperties(i);
+                spr.setClean();
+                rebufferdata=true;
+            }
+        }
+        if(rebufferdata) {
+            //rebuffer the data if we have a dirty flag
+            glBindBuffer(GL_ARRAY_BUFFER, VBO_ID);
+            glBufferSubData(GL_ARRAY_BUFFER, 0, Vertices);
+        }
         // Use Shader
         Shader.UseShader();
         Shader.UploadMatrix4f("UniformProjectionMatrix", Window.GetScene().Camera().GetProjectionMatrix());

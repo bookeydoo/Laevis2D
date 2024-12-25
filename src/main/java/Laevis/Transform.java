@@ -25,4 +25,24 @@ public class Transform {
         this.Position = Position;
         this.Scale = Scale;
     }
+    public Transform copy(){
+        return new Transform(new Vector2f(this.Position),new Vector2f(this.Scale));
+    }
+
+    public  void copy(Transform to){    //it copies to the  new transform object we pass in
+        to.Position.set(this.Position);
+        to.Scale.set(this.Scale);
+
+    }
+
+    @Override
+    public boolean equals(Object O){
+
+    if(O==null) return false;
+
+    if(!(O instanceof Transform )) return false;
+
+    Transform t=(Transform) O;
+    return t.Position.equals(this.Position) && t.Scale.equals(this.Scale);
+    }
 }

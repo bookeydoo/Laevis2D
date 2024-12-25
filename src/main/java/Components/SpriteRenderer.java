@@ -1,6 +1,8 @@
 package Components;
 
 import Laevis.Component;
+import Laevis.GameObject;
+import Laevis.Transform;
 import Renderer.Texture;
 import org.joml.Vector2f;
 import org.joml.Vector4f;
@@ -10,6 +12,9 @@ public class SpriteRenderer extends Component {
     private Vector2f[] TextureCoordinates;
     private Texture Texture;
     private Sprite Sprite;
+    private Transform lastTransform;
+
+    private boolean isDirty=false;
 
     public SpriteRenderer(Vector4f Color) {
         this.Color = Color;
@@ -23,11 +28,16 @@ public class SpriteRenderer extends Component {
 
     @Override
     public void StartComponent() {
+        this.lastTransform= GameObject.Transform.copy();
 
     }
 
     @Override
     public void UpdateComponent(float DeltaTime) {
+    if(!this.lastTransform.equals(this.GameObject.Transform)){
+        this.GameObject.Transform.copy(this.lastTransform);
+        isDirty=true;
+    }
 
     }
 
@@ -42,4 +52,25 @@ public class SpriteRenderer extends Component {
     public Vector2f[] GetTextureCoordinates() {
         return Sprite.GetTextureCoordinates();
     }
+
+
+    public void setSprite(Sprite sprite){
+        this.Sprite=sprite;
+        this.isDirty=true;
+
+    }
+    public void setColor(Vector4f color){
+        if(!this.Color.equals(color)){
+            this.isDirty=true;
+            this.Color.set(color);
+        }
+
+    }
+    public boolean isDirty(){
+        return this.isDirty;
+    }
+    public void setClean(){
+         this.isDirty=false;
+    }
+
 }
