@@ -76,18 +76,7 @@ public class   ImGuiLayer {
         keyMap[ImGuiKey.X] = GLFW_KEY_X;
         keyMap[ImGuiKey.Y] = GLFW_KEY_Y;
         keyMap[ImGuiKey.Z] = GLFW_KEY_Z;
-        io.setKeyMap(keyMap);
 
-        //mouse cursor mapping
-        mousecursors[ImGuiMouseCursor.Arrow] = glfwCreateStandardCursor(GLFW_ARROW_CURSOR);
-        mousecursors[ImGuiMouseCursor.TextInput] = glfwCreateStandardCursor(GLFW_IBEAM_CURSOR);
-        mousecursors[ImGuiMouseCursor.ResizeAll] = glfwCreateStandardCursor(GLFW_ARROW_CURSOR);
-        mousecursors[ImGuiMouseCursor.ResizeNS] = glfwCreateStandardCursor(GLFW_VRESIZE_CURSOR);
-        mousecursors[ImGuiMouseCursor.ResizeEW] = glfwCreateStandardCursor(GLFW_HRESIZE_CURSOR);
-        mousecursors[ImGuiMouseCursor.ResizeNESW] = glfwCreateStandardCursor(GLFW_ARROW_CURSOR);
-        mousecursors[ImGuiMouseCursor.ResizeNWSE] = glfwCreateStandardCursor(GLFW_ARROW_CURSOR);
-        mousecursors[ImGuiMouseCursor.Hand] = glfwCreateStandardCursor(GLFW_HAND_CURSOR);
-        mousecursors[ImGuiMouseCursor.NotAllowed] = glfwCreateStandardCursor(GLFW_ARROW_CURSOR);
 
 /*
         glfwSetMouseButtonCallback(glfwWindow, (w, button, action, mods) -> {
@@ -147,6 +136,7 @@ public class   ImGuiLayer {
 
             ImGui.begin("Main menu");
 
+            ImGui.showDemoWindow();
 
             if (ImGui.button("2d", 500, 50)) {
 

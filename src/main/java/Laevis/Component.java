@@ -2,7 +2,7 @@ package Laevis;
 
 public abstract class Component {
 
-    public GameObject GameObject = null;
+    public transient GameObject GameObject = null;
 
     public void StartComponent() {
 

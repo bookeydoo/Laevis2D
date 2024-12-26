@@ -5,6 +5,8 @@ import Components.SpriteRenderer;
 import Components.SpriteSheet;
 import LaevisUtilities.AssetPool;
 import Renderer.Renderer;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import imgui.ImGui;
 import org.joml.Vector2f;
 import org.joml.Vector4f;
@@ -41,22 +43,36 @@ public class LevelEditorScene extends Scene {
         Vector2f TransformScale4 = new Vector2f(128, 128);
 
         //added random z index values
+        SpriteRenderer gameObject1Sprite=new SpriteRenderer();
         gameObject1 = new GameObject("Object 1", new Transform(TransformPosition1, TransformScale1),-1);
-        gameObject1.AddComponent(new SpriteRenderer(Sprites.GetSprite(0)));
+        gameObject1.AddComponent(gameObject1Sprite);
+        gameObject1Sprite.setColor(new Vector4f(1,1,1,1));
         this.AddGameObjectToScene(gameObject1);
+        this.activegameobject=gameObject1;
 
+/*
+        SpriteRenderer gameObject2SpriteRendrer=new SpriteRenderer();
+        Sprite gameObject2Sprite=new Sprite();
         GameObject gameObject2 = new GameObject("Object 2", new Transform(TransformPosition2, TransformScale2),2);
-        gameObject2.AddComponent(new SpriteRenderer(Sprites.GetSprite(1)));
+        gameObject2.AddComponent(gameObject2SpriteRendrer);
+        gameObject2Sprite.setTexture(AssetPool.GetTexture("x"));
+        gameObject2SpriteRendrer.setSprite(gameObject2Sprite);
+        gameObject2SpriteRendrer.setColor(new Vector4f(1,1,1,1));
+        gameObject2.AddComponent(gameObject2SpriteRendrer);
         this.AddGameObjectToScene(gameObject2);
+*/
 
-
+/*
         GameObject gameObject3 = new GameObject("Object 3", new Transform(TransformPosition3, TransformScale3),2);
         gameObject3.AddComponent(new SpriteRenderer(Sprites.GetSprite(2)));
         this.AddGameObjectToScene(gameObject3);
 
         GameObject gameObject4 = new GameObject("Object 4", new Transform(TransformPosition4, TransformScale4),-1);
         gameObject4.AddComponent(new SpriteRenderer(Sprites.GetSprite(3)));
-        this.AddGameObjectToScene(gameObject4);
+        this.AddGameObjectToScene(gameObject4);*/
+
+        Gson gson=new GsonBuilder().setPrettyPrinting().create();
+        System.out.println(gson.toJson("hello world"));
     }
 
     private void LoadResources() {

@@ -32,7 +32,9 @@ public class SpriteSheet {
 				new Vector2f(LeftX, TopY)
 			};
 
-			Sprite Sprite = new Sprite(this.Texture, TextureCoordinates);
+			Sprite Sprite = new Sprite();
+			Sprite.setTexture(this.Texture);
+			Sprite.setTextCoords(TextureCoordinates);
 			this.Sprites.add(Sprite);
 
 			CurrentX += SpriteWidth + Spacing;

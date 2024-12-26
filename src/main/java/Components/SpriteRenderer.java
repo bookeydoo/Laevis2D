@@ -8,25 +8,25 @@ import org.joml.Vector2f;
 import org.joml.Vector4f;
 
 public class SpriteRenderer extends Component {
-    private Vector4f Color;
+    private Vector4f Color=new Vector4f(1,1,1,1);
     private Vector2f[] TextureCoordinates;
     private Texture Texture;
-    private Sprite Sprite;
-    private Transform lastTransform;
+    private Sprite Sprite =new Sprite();
+    private transient Transform lastTransform;
 
-    private boolean isDirty=false;
-
+    private transient boolean isDirty=false;
+/*
     public SpriteRenderer(Vector4f Color) {
         this.Color = Color;
         this.Sprite = new Sprite(null);
         this.isDirty=true;
-    }
-
-    public SpriteRenderer(Sprite Sprite) {
-        this.Sprite = Sprite;
-        this.Color = new Vector4f(1, 1, 1, 1);
-        this.isDirty=true;
-    }
+    }*/
+//
+//    public SpriteRenderer(Sprite Sprite) {
+//        this.Sprite = Sprite;
+//        this.Color = new Vector4f(1, 1, 1, 1);
+//        this.isDirty=true;
+//    }
 
     @Override
     public void StartComponent() {
