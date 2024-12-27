@@ -28,10 +28,6 @@ public class LevelEditorScene extends Scene {
 
         this.Camera = new Camera(CameraOffsetLocal);
 
-        if(levelloaded){
-            return;
-        }
-
          Sprites = AssetPool.GetSpriteSheet("Assets/Images/spritesheet.png");
 
         Vector2f TransformPosition1 = new Vector2f(100, 100);
@@ -75,7 +71,8 @@ public class LevelEditorScene extends Scene {
         gameObject4.AddComponent(new SpriteRenderer(Sprites.GetSprite(3)));
         this.AddGameObjectToScene(gameObject4);*/
 
-
+        Gson gson=new GsonBuilder().setPrettyPrinting().create();
+        System.out.println(gson.toJson("hello world"));
     }
 
     private void LoadResources() {

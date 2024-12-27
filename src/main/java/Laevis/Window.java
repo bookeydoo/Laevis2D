@@ -131,14 +131,11 @@ public class Window {
         Window.ChangeScene(0);
     }
 
-
     //Engine Loop
     public void EngineLoop() {
         float BeginTime = Time.GetTime();
         float EndTime;
         float DeltaTime = -1.0f;
-
-        CurrentScene.load();
 
         while (!glfwWindowShouldClose(glfwWindow)) {
 
@@ -183,7 +180,7 @@ public class Window {
             DeltaTime = EndTime - BeginTime;
             BeginTime = EndTime;
         }
-    CurrentScene.saveFile();
+
     }
     public static Window get() {
         if (Window.window == null) {
