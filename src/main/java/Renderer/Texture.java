@@ -12,10 +12,12 @@ public class Texture {
     private String FilePath;
     private int TextureID;
     private int Width, Height;
-/*
-    public Texture(String FilePath) {
 
-    }*/
+/*
+    public Texture(String FilePath){
+
+    }
+*/
 
     public void init(String filePath){
         this.FilePath = FilePath;
@@ -74,5 +76,8 @@ public class Texture {
 
     public int GetHeight() {
         return this.Height;
+    }
+    public int getTextureID(){
+        return TextureID;
     }
 }

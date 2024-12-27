@@ -44,18 +44,20 @@ public class Window {
         switch (NewScene) {
             case 0:
                 CurrentScene = new LevelEditorScene();
-                CurrentScene.InitScene();
-                CurrentScene.StartScene();
+
                 break;
             case 1:
                 CurrentScene = new LevelScene();
-                CurrentScene.InitScene();
-                CurrentScene.StartScene();
+;
                 break;
             default:
                 assert false: "Unknown Scene '" + NewScene + "'";
                 break;
         }
+        CurrentScene.load();
+        CurrentScene.InitScene();
+        CurrentScene.StartScene();
+
     }
 
     //Get Window
@@ -86,6 +88,8 @@ public class Window {
         System.out.println("LWJGL Version: " + Version.getVersion());
 
         EngineLoop();
+
+        CurrentScene.imgui();
 
         glfwFreeCallbacks(glfwWindow);
 
@@ -138,7 +142,6 @@ public class Window {
         float EndTime;
         float DeltaTime = -1.0f;
 
-        CurrentScene.load();
 
         while (!glfwWindowShouldClose(glfwWindow)) {
 
@@ -167,7 +170,8 @@ public class Window {
             imGuiLayer.implGl3.newFrame();          // Prepare OpenGL renderer for the new frame
             imGuiLayer.imguiglfw.newFrame();        // Prepare GLFW for the new frame
 
-            imGuiLayer.ImGui();                    // Render your ImGui UI elements (create windows, buttons, etc.)
+            imGuiLayer.ImGui(); // Render your ImGui UI elements (create windows, buttons, etc.)
+            CurrentScene.imgui();
 
             ImGui.endFrame();
             ImGui.updatePlatformWindows();

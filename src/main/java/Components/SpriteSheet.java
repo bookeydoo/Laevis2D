@@ -5,7 +5,6 @@ import org.joml.Vector2f;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Vector;
 
 public class SpriteSheet {
 	private Texture Texture;
@@ -35,6 +34,8 @@ public class SpriteSheet {
 			Sprite Sprite = new Sprite();
 			Sprite.setTexture(this.Texture);
 			Sprite.setTextCoords(TextureCoordinates);
+			Sprite.setWidth(SpriteWidth);
+			Sprite.setHeight(SpriteHeight);
 			this.Sprites.add(Sprite);
 
 			CurrentX += SpriteWidth + Spacing;
@@ -47,5 +48,9 @@ public class SpriteSheet {
 
 	public Sprite GetSprite(int Index) {
 		return this.Sprites.get(Index);
+	}
+
+	public int size(){
+		return Sprites.size();
 	}
 }

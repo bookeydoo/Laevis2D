@@ -17,6 +17,194 @@
               "Width": 224,
               "Height": 32
             },
+            "Width": 0.0,
+            "Height": 0.0,
+            "TextureCoordinates": [
+              {
+                "x": 0.14285715,
+                "y": 1.0
+              },
+              {
+                "x": 0.14285715,
+                "y": 0.5
+              },
+              {
+                "x": 0.071428575,
+                "y": 0.5
+              },
+              {
+                "x": 0.071428575,
+                "y": 1.0
+              }
+            ]
+          }
+        }
+      },
+      {
+        "type": "Components.TestComponent",
+        "properties": {
+          "collidertype": 0,
+          "friction": 0.0,
+          "Velcoity": {
+            "x": 0.0,
+            "y": 0.5,
+            "z": 0.0
+          }
+        }
+      }
+    ],
+    "Transform": {
+      "Position": {
+        "x": 2504.647,
+        "y": 100.0
+      },
+      "Scale": {
+        "x": 128.0,
+        "y": 128.0
+      },
+      "Empty": {
+        "x": 0.0,
+        "y": 0.0
+      }
+    },
+    "zIndex": -1
+  },
+  {
+    "Name": "Object 1",
+    "Components": [
+      {
+        "type": "Components.SpriteRenderer",
+        "properties": {
+          "Color": {
+            "x": 1.0,
+            "y": 1.0,
+            "z": 1.0,
+            "w": 1.0
+          },
+          "Sprite": {
+            "Texture": {
+              "TextureID": 1,
+              "Width": 224,
+              "Height": 32
+            },
+            "Width": 0.0,
+            "Height": 0.0,
+            "TextureCoordinates": [
+              {
+                "x": 0.14285715,
+                "y": 1.0
+              },
+              {
+                "x": 0.14285715,
+                "y": 0.5
+              },
+              {
+                "x": 0.071428575,
+                "y": 0.5
+              },
+              {
+                "x": 0.071428575,
+                "y": 1.0
+              }
+            ]
+          }
+        }
+      }
+    ],
+    "Transform": {
+      "Position": {
+        "x": 1918.3328,
+        "y": 100.0
+      },
+      "Scale": {
+        "x": 128.0,
+        "y": 128.0
+      },
+      "Empty": {
+        "x": 0.0,
+        "y": 0.0
+      }
+    },
+    "zIndex": -1
+  },
+  {
+    "Name": "Object 1",
+    "Components": [
+      {
+        "type": "Components.SpriteRenderer",
+        "properties": {
+          "Color": {
+            "x": 1.0,
+            "y": 1.0,
+            "z": 1.0,
+            "w": 1.0
+          },
+          "Sprite": {
+            "Texture": {
+              "TextureID": 1,
+              "Width": 224,
+              "Height": 32
+            },
+            "Width": 0.0,
+            "Height": 0.0,
+            "TextureCoordinates": [
+              {
+                "x": 0.14285715,
+                "y": 1.0
+              },
+              {
+                "x": 0.14285715,
+                "y": 0.5
+              },
+              {
+                "x": 0.071428575,
+                "y": 0.5
+              },
+              {
+                "x": 0.071428575,
+                "y": 1.0
+              }
+            ]
+          }
+        }
+      }
+    ],
+    "Transform": {
+      "Position": {
+        "x": 150.88803,
+        "y": 100.0
+      },
+      "Scale": {
+        "x": 128.0,
+        "y": 128.0
+      },
+      "Empty": {
+        "x": 0.0,
+        "y": 0.0
+      }
+    },
+    "zIndex": -1
+  },
+  {
+    "Name": "Object 1",
+    "Components": [
+      {
+        "type": "Components.SpriteRenderer",
+        "properties": {
+          "Color": {
+            "x": 1.0,
+            "y": 1.0,
+            "z": 1.0,
+            "w": 1.0
+          },
+          "Sprite": {
+            "Texture": {
+              "TextureID": 1,
+              "Width": 224,
+              "Height": 32
+            },
+            "Width": 0.0,
+            "Height": 0.0,
             "TextureCoordinates": [
               {
                 "x": 0.14285715,

@@ -1,5 +1,6 @@
 package Laevis;
 
+import org.joml.Vector4f;
 import org.lwjgl.*;
 import org.lwjgl.glfw.*;
 import org.lwjgl.opengl.*;
@@ -75,6 +76,25 @@ public class MouseListener {
 
     public static float GetY() {
         return (float)Get().YPosition;
+    }
+
+    public static float getOrthoX(){
+    float currentX=GetX();
+    currentX=(currentX/(float)Window.getWidth())*2.0f - 1.0f;
+
+    Vector4f tmp=new Vector4f(0,0,0,1);
+    tmp.mul(Window.getScene().Camera().GetInverseProjection().mul(Window.getScene().Camera().GetInverseView()));
+    currentX=tmp.x;
+    return currentX;
+    }
+
+    public static float getOrthoY(){
+    float currentY=GetY();
+    currentY=(currentY/(float)Window.getHeight())*2.0f -1.0f;
+    Vector4f tmp=new Vector4f(0,0,0,1);
+    tmp.mul(Window.getScene().Camera().GetInverseProjection().mul(Window.getScene().Camera().GetInverseView()));
+    currentY=tmp.y;
+    return -1;
     }
 
     public static float GetDx() {

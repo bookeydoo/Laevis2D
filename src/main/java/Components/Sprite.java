@@ -6,6 +6,27 @@ import org.w3c.dom.Text;
 
 public class Sprite {
 	private Texture Texture=null;
+	private float Width,Height;
+
+	public void setWidth(float width) {
+		Width = width;
+	}
+
+	public void setHeight(float height) {
+		Height = height;
+	}
+
+	public float getWidth() {
+		return Width;
+	}
+
+	public float getHeight() {
+		return Height;
+	}
+	public int getTexId(){
+		return Texture==null ? -1 : Texture.getTextureID();
+	}
+
 	private Vector2f[] TextureCoordinates={
 			new Vector2f(1,1),
 			new Vector2f(1,0),
