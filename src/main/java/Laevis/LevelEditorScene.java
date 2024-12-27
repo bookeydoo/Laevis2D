@@ -125,7 +125,7 @@ public class LevelEditorScene extends Scene {
         //this is the actual window x as in translated to screen coords
         float WindowX2=WindowPos.x+WindowSize.x;
 
-        for(int i=0;i<24;i++){
+        for(int i=0;i<sprites.size();i++){
             Sprite sprite=sprites.GetSprite(i);
             float spriteWidth=sprite.getWidth()*4;
             float spriteHeight=sprite.getHeight()*4;
