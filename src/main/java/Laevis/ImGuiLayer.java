@@ -1,5 +1,6 @@
 package Laevis;
 
+import Components.MouseControls;
 import imgui.*;
 import imgui.callback.ImStrConsumer;
 import imgui.callback.ImStrSupplier;
@@ -9,13 +10,15 @@ import imgui.flag.ImGuiKey;
 import imgui.flag.ImGuiMouseCursor;
 import imgui.gl3.ImGuiImplGl3;
 import imgui.glfw.ImGuiImplGlfw;
+import scenes.Scene;
+
 import static org.lwjgl.glfw.GLFW.*;
 
 
 public class   ImGuiLayer {
     public ImGuiImplGlfw imguiglfw;
     public ImGuiImplGl3 implGl3;
-
+    private long glfwWindow;
 
     //mouse cursors provided by glfw
     private final long[] mousecursors=new long[ImGuiMouseCursor.COUNT];
@@ -26,9 +29,11 @@ public class   ImGuiLayer {
     public boolean showmainmenu=true ;
     public boolean show2dWin=false;
     public boolean show3dWin=false;
+
     // Constructor initializes the ImGui backend
-    public ImGuiLayer() {
-        initImGui();  // Ensure proper initialization when the object is created
+    public ImGuiLayer(long glfwWindow   ) {
+        this.glfwWindow=glfwWindow;
+
 
     }
 
@@ -48,11 +53,12 @@ public class   ImGuiLayer {
         io.setBackendPlatformName("imgui_java_impl_glfw");//i have no idea what this does
         io.addConfigFlags(ImGuiConfigFlags.ViewportsEnable);
 
-        io.setDisplaySize(1920,1080);
+        io.setDisplaySize(1920, 1080);
         io.getFonts().addFontDefault();
         io.getFonts().build();
 
-        //keyboard mapping for imgui , used for io.keydown
+        // ------------------------------------------------------------
+        // Keyboard mapping. ImGui will use those indices to peek into the io.KeysDown[] array.
         final int[] keyMap = new int[ImGuiKey.COUNT];
         keyMap[ImGuiKey.Tab] = GLFW_KEY_TAB;
         keyMap[ImGuiKey.LeftArrow] = GLFW_KEY_LEFT;
@@ -76,9 +82,44 @@ public class   ImGuiLayer {
         keyMap[ImGuiKey.X] = GLFW_KEY_X;
         keyMap[ImGuiKey.Y] = GLFW_KEY_Y;
         keyMap[ImGuiKey.Z] = GLFW_KEY_Z;
+        io.setKeyMap(keyMap);
+        // ------------------------------------------------------------
+        // Mouse cursors mapping
+        mousecursors[ImGuiMouseCursor.Arrow] = glfwCreateStandardCursor(GLFW_ARROW_CURSOR);
+        mousecursors[ImGuiMouseCursor.TextInput] = glfwCreateStandardCursor(GLFW_IBEAM_CURSOR);
+        mousecursors[ImGuiMouseCursor.ResizeAll] = glfwCreateStandardCursor(GLFW_ARROW_CURSOR);
+        mousecursors[ImGuiMouseCursor.ResizeNS] = glfwCreateStandardCursor(GLFW_VRESIZE_CURSOR);
+        mousecursors[ImGuiMouseCursor.ResizeEW] = glfwCreateStandardCursor(GLFW_HRESIZE_CURSOR);
+        mousecursors[ImGuiMouseCursor.ResizeNESW] = glfwCreateStandardCursor(GLFW_ARROW_CURSOR);
+        mousecursors[ImGuiMouseCursor.ResizeNWSE] = glfwCreateStandardCursor(GLFW_ARROW_CURSOR);
+        mousecursors[ImGuiMouseCursor.Hand] = glfwCreateStandardCursor(GLFW_HAND_CURSOR);
+        mousecursors[ImGuiMouseCursor.NotAllowed] = glfwCreateStandardCursor(GLFW_ARROW_CURSOR);
 
+        // ------------------------------------------------------------
 
-/*
+        glfwSetKeyCallback(glfwWindow, (w, key, scancode, action, mods) -> {
+            if (action == GLFW_PRESS) {
+                io.setKeysDown(key, true);
+            } else if (action == GLFW_RELEASE) {
+                io.setKeysDown(key, false);
+            }
+
+            io.setKeyCtrl(io.getKeysDown(GLFW_KEY_LEFT_CONTROL) || io.getKeysDown(GLFW_KEY_RIGHT_CONTROL));
+            io.setKeyShift(io.getKeysDown(GLFW_KEY_LEFT_SHIFT) || io.getKeysDown(GLFW_KEY_RIGHT_SHIFT));
+            io.setKeyAlt(io.getKeysDown(GLFW_KEY_LEFT_ALT) || io.getKeysDown(GLFW_KEY_RIGHT_ALT));
+            io.setKeySuper(io.getKeysDown(GLFW_KEY_LEFT_SUPER) || io.getKeysDown(GLFW_KEY_RIGHT_SUPER));
+
+            if (!io.getWantCaptureKeyboard()) {
+                KeyListener.KeyCallback(w, key, scancode, action, mods);
+            }
+        });
+
+        glfwSetCharCallback(glfwWindow, (w, c) -> {
+            if (c != GLFW_KEY_DELETE) {
+                io.addInputCharacter(c);
+            }
+        });
+
         glfwSetMouseButtonCallback(glfwWindow, (w, button, action, mods) -> {
             final boolean[] mouseDown = new boolean[5];
 
@@ -93,18 +134,23 @@ public class   ImGuiLayer {
             if (!io.getWantCaptureMouse() && mouseDown[1]) {
                 ImGui.setWindowFocus(null);
             }
+
+
         });
+
         glfwSetScrollCallback(glfwWindow, (w, xOffset, yOffset) -> {
             io.setMouseWheelH(io.getMouseWheelH() + (float) xOffset);
             io.setMouseWheel(io.getMouseWheel() + (float) yOffset);
         });
+
+
+
 
         io.setSetClipboardTextFn(new ImStrConsumer() {
             @Override
             public void accept(final String s) {
                 glfwSetClipboardString(glfwWindow, s);
             }
-
         });
 
         io.setGetClipboardTextFn(new ImStrSupplier() {
@@ -118,11 +164,58 @@ public class   ImGuiLayer {
                 }
             }
         });
-
-
- */
+        // Method initializes LWJGL3 renderer.
+        // This method SHOULD be called after you've initialized your ImGui configuration (fonts and so on).
+        // ImGui context should be created as well.
+        implGl3.init("#version 330 core");
     }
 
+
+
+    public void update(float dt, Scene currentScene) {
+        startFrame(dt);
+
+        // Any Dear ImGui code SHOULD go between ImGui.newFrame()/ImGui.render() methods
+        ImGui.newFrame();
+        currentScene.sceneImGui();
+        ImGui.showDemoWindow();
+        ImGui.render();
+
+        endFrame();
+    }
+
+    private void startFrame(final float deltaTime) {
+        // Get window properties and mouse position
+        float[] winWidth = {Window.getWidth()};
+        float[] winHeight = {Window.getHeight()};
+        double[] mousePosX = {0};
+        double[] mousePosY = {0};
+        glfwGetCursorPos(glfwWindow, mousePosX, mousePosY);
+
+        // We SHOULD call those methods to update Dear ImGui state for the current frame
+        final ImGuiIO io = ImGui.getIO();
+        io.setDisplaySize(winWidth[0], winHeight[0]);
+        io.setDisplayFramebufferScale(1f, 1f);
+        io.setMousePos((float) mousePosX[0], (float) mousePosY[0]);
+        io.setDeltaTime(deltaTime);
+
+        // Update the mouse cursor
+        final int imguiCursor = ImGui.getMouseCursor();
+        glfwSetCursor(glfwWindow, mousecursors[imguiCursor]);
+        glfwSetInputMode(glfwWindow, GLFW_CURSOR, GLFW_CURSOR_NORMAL);
+    }
+
+    private void endFrame() {
+        // After Dear ImGui prepared a draw data, we use it in the LWJGL3 renderer.
+        // At that moment ImGui will be rendered to the current OpenGL context.
+        implGl3.renderDrawData(ImGui.getDrawData());
+    }
+
+    // If you want to clean a room after yourself - do it by yourself
+    private void destroyImGui() {
+        implGl3.dispose();
+        ImGui.destroyContext();
+    }
 
 
     // Call this method to render ImGui elements
@@ -174,9 +267,4 @@ public class   ImGuiLayer {
 
 
 
-    // Optionally, a cleanup method if necessary
-    public void cleanup() {
-        implGl3.destroyDeviceObjects();
-        ImGui.destroyContext();
-    }
 }

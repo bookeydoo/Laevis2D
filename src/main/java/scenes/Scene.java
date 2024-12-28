@@ -1,5 +1,6 @@
-package Laevis;
+package scenes;
 
+import Laevis.*;
 import Renderer.Renderer;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -14,7 +15,7 @@ import java.util.List;
 
 public abstract class Scene {
     protected Renderer Renderer = new Renderer();
-    protected Camera Camera;
+    protected Laevis.Camera Camera;
     private boolean IsRunning = false;
     protected List<GameObject> GameObjects = new ArrayList<>();
     protected  GameObject activegameobject=null;

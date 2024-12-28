@@ -1,13 +1,11 @@
-package Laevis;
+package scenes;
 
-import Components.Sprite;
-import Components.SpriteRenderer;
-import Components.SpriteSheet;
-import Components.TestComponent;
+import Components.*;
+import Laevis.Camera;
+import Laevis.GameObject;
+import Laevis.PreFabs;
+import Laevis.Transform;
 import LaevisUtilities.AssetPool;
-import Renderer.Renderer;
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 import imgui.ImGui;
 import imgui.ImVec2;
 import org.joml.Vector2f;
@@ -19,6 +17,7 @@ public class LevelEditorScene extends Scene {
     private GameObject gameObject1;
     private Vector2f CameraOffsetLocal = new Vector2f(-50, 0);
 
+    MouseControls mouseControls=new MouseControls();
 
     public LevelEditorScene() {
 
@@ -102,6 +101,7 @@ public class LevelEditorScene extends Scene {
     @Override
     public void SceneUpdate(float DeltaTime) {
 
+        mouseControls.UpdateComponent(DeltaTime);
         System.out.println("FPS: " + (1.0f / DeltaTime));
 
 
@@ -112,6 +112,7 @@ public class LevelEditorScene extends Scene {
     }
     @Override
     public void imgui(){
+
         ImGui.begin("test window");
 
         ImVec2 WindowPos=new ImVec2();
@@ -127,6 +128,9 @@ public class LevelEditorScene extends Scene {
 
         for(int i=0;i<sprites.size();i++){
             Sprite sprite=sprites.GetSprite(i);
+            if(sprite==null){
+                System.err.println("sprite at index "+i+"is invalid ");
+            }
             float spriteWidth=sprite.getWidth()*4;
             float spriteHeight=sprite.getHeight()*4;
             int id=sprite.getTexId();
@@ -135,7 +139,9 @@ public class LevelEditorScene extends Scene {
 
             if(ImGui.imageButton(id,spriteWidth,spriteHeight,Texcoords[0].x,Texcoords[0].y,
                     Texcoords[2].x,Texcoords[2].y)){
-                System.out.println("clicked"+i+"st button");
+                GameObject object= PreFabs.generateSpriteObject(sprite,spriteWidth,spriteHeight);
+                //attach this to mouse cursor
+                mouseControls.pickupObject(object);
 
             }
             ImGui.popID();
@@ -146,13 +152,7 @@ public class LevelEditorScene extends Scene {
             if(i+1<sprites.size() && nextButtonX2<WindowX2){
                 ImGui.sameLine();
             }
-
-
         }
-        float WindowY2=WindowPos.y+WindowSize.y;
-
-
-
 
         ImGui.end();
     }

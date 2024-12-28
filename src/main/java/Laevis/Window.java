@@ -2,11 +2,12 @@ package Laevis;
 
 import LaevisUtilities.Time;
 import imgui.ImGui;
-import imgui.ImGuiIO;
-import imgui.flag.ImGuiConfigFlags;
 import org.lwjgl.*;
 import org.lwjgl.glfw.*;
 import org.lwjgl.opengl.*;
+import scenes.LevelEditorScene;
+import scenes.LevelScene;
+import scenes.Scene;
 
 import static org.lwjgl.glfw.Callbacks.*;
 import static org.lwjgl.glfw.GLFW.*;
@@ -75,21 +76,20 @@ public class Window {
     }
 
 
-    //init window very important for it to work
+    //changed for now so It's not used
     public void init(){
 
-        imGuiLayer=new ImGuiLayer();
-        imGuiLayer.imguiglfw.init(glfwWindow,true);
-        imGuiLayer.implGl3.init("#version 330 core");
     }
 
     //Run Engine
     public void Run() {
         System.out.println("LWJGL Version: " + Version.getVersion());
-
+        EngineInit();
         EngineLoop();
 
+/*
         CurrentScene.imgui();
+*/
 
         glfwFreeCallbacks(glfwWindow);
 
@@ -122,6 +122,14 @@ public class Window {
             System.out.println("Unable to create window");
             System.exit(-1);
         }
+        glfwSetCursorPosCallback(glfwWindow, MouseListener::MouseScrollCallback);
+        glfwSetMouseButtonCallback(glfwWindow, MouseListener::MouseButtonCallback);
+        glfwSetScrollCallback(glfwWindow, MouseListener::MouseScrollCallback);
+        glfwSetKeyCallback(glfwWindow, KeyListener::KeyCallback);
+        glfwSetWindowSizeCallback(glfwWindow, (w, newWidth, newHeight) -> {
+            Window.setWidth(newWidth);
+            Window.setHeight(newHeight);
+        });
 
         glfwMakeContextCurrent(glfwWindow);
         glfwSwapInterval(1);
@@ -131,6 +139,9 @@ public class Window {
 
         glEnable(GL_BLEND);
         glBlendFunc(GL_ONE,GL_ONE_MINUS_SRC_ALPHA);
+
+        this.imGuiLayer=new ImGuiLayer(glfwWindow);
+        this.imGuiLayer.initImGui();
 
         Window.ChangeScene(0);
     }
@@ -145,7 +156,7 @@ public class Window {
 
         while (!glfwWindowShouldClose(glfwWindow)) {
 
-
+            glfwPollEvents();
             glClearColor(r, g, b, a);
 
             glClear(GL_COLOR_BUFFER_BIT);
@@ -166,21 +177,10 @@ public class Window {
             if(DeltaTime>=0){
                 CurrentScene.SceneUpdate(DeltaTime);
             }
-            ImGui.newFrame();                      // Start a new frame for ImGui (sets up the internal state for a new frame)
-            imGuiLayer.implGl3.newFrame();          // Prepare OpenGL renderer for the new frame
-            imGuiLayer.imguiglfw.newFrame();        // Prepare GLFW for the new frame
-
-            imGuiLayer.ImGui(); // Render your ImGui UI elements (create windows, buttons, etc.)
-            CurrentScene.imgui();
-
-            ImGui.endFrame();
-            ImGui.updatePlatformWindows();
-            ImGui.renderPlatformWindowsDefault();
-
-            ImGui.render();                         // Render the ImGui draw data to be processed by the renderer
-            imGuiLayer.implGl3.renderDrawData(ImGui.getDrawData());
+            this.imGuiLayer.update(DeltaTime,CurrentScene);
             glfwSwapBuffers(glfwWindow);
-            glfwPollEvents();
+
+
 
 
             EndTime = Time.GetTime();
