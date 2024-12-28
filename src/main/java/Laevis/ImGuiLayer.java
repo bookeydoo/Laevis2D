@@ -134,6 +134,9 @@ public class   ImGuiLayer {
             if (!io.getWantCaptureMouse() && mouseDown[1]) {
                 ImGui.setWindowFocus(null);
             }
+            if(!io.getWantCaptureMouse()){
+                MouseListener.MouseButtonCallback(w,button,action,mods);
+            }
 
 
         });

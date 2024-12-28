@@ -1,6 +1,7 @@
 package Laevis;
 
 import LaevisUtilities.Time;
+import Renderer.DebugDraw;
 import imgui.ImGui;
 import org.lwjgl.*;
 import org.lwjgl.glfw.*;
@@ -157,11 +158,13 @@ public class Window {
         while (!glfwWindowShouldClose(glfwWindow)) {
 
             glfwPollEvents();
+            DebugDraw.BeginFrame();
             glClearColor(r, g, b, a);
 
             glClear(GL_COLOR_BUFFER_BIT);
 
             if (DeltaTime >= 0) {
+                DebugDraw.Draw();
                 CurrentScene.SceneUpdate(DeltaTime);
             }
             if (FadeToBlack) {

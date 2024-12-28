@@ -10,7 +10,8 @@ import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
 
 public abstract class Component {
-
+    private static int ID_Counter=0;
+    private int U_ID=-1;// unique id
     public transient GameObject GameObject = null;
 
     public void StartComponent() {
@@ -76,5 +77,18 @@ public abstract class Component {
         }catch(IllegalAccessException e){
             e.printStackTrace();
         }
+    }
+    public void generateID(){
+        if(this.U_ID == -1){
+            this.U_ID=ID_Counter++;
+
+        }
+    }
+
+    public int getU_ID(){
+        return this.U_ID;
+    }
+    public static void init(int maxID){
+        ID_Counter=maxID;
     }
 }

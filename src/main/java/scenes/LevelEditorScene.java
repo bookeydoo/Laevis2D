@@ -128,13 +128,12 @@ public class LevelEditorScene extends Scene {
 
         for(int i=0;i<sprites.size();i++){
             Sprite sprite=sprites.GetSprite(i);
-            if(sprite==null){
-                System.err.println("sprite at index "+i+"is invalid ");
-            }
+
             float spriteWidth=sprite.getWidth()*4;
             float spriteHeight=sprite.getHeight()*4;
             int id=sprite.getTexId();
             Vector2f[] Texcoords=sprite.GetTextureCoordinates();
+
             ImGui.pushID(i);
 
             if(ImGui.imageButton(id,spriteWidth,spriteHeight,Texcoords[0].x,Texcoords[0].y,

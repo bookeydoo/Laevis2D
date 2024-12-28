@@ -4,6 +4,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class GameObject {
+
+    private static int ID_Counter=0;
+    private int UID=-1;
+
     private String Name;
     private List<Component> Components;
     public Transform Transform;
@@ -14,6 +18,8 @@ public class GameObject {
         this.Components = new ArrayList<>();
         this.Transform = new Transform();
         this.zIndex=0;
+
+        this.UID=ID_Counter++;
     }
 
     public GameObject(String Name, Transform Transform,int zIndex) {
@@ -50,6 +56,7 @@ public class GameObject {
     }
 
     public void AddComponent(Component Component) {
+        Component.generateID();
         this.Components.add(Component);
         Component.GameObject = this;
     }
@@ -73,5 +80,16 @@ public class GameObject {
         for(Component c: Components){
             c.imgui();
         }
+    }
+
+    public static void init(int maxid){
+        ID_Counter=maxid;
+    }
+    public int getUID(){
+        return this.UID;
+    }
+
+    public List<Component>getComponents(){
+        return this.Components;
     }
 }
