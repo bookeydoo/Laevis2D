@@ -26,8 +26,8 @@ public class DebugDraw {
 
     //6 floats per vertex ,2 vertices per line
     private static float[] VertexArray=new float[MAX_LINES*6*2];
-    private static Shader shader= AssetPool.GetShader("assets/shaders/debugLine2d.glsl");
-
+   /* private static Shader shader= AssetPool.GetShader("assets/shaders/debugLine2d.glsl");
+*/
     private static boolean started=false;
     private static int VAO_ID;
     private static int VBO_ID;
@@ -95,10 +95,10 @@ public class DebugDraw {
 
 
         //use shader
-        shader.UseShader();
+   /*     shader.UseShader();
         shader.UploadMatrix4f("uProjection", Window.getScene().Camera().GetProjectionMatrix());
         shader.UploadMatrix4f("uView", Window.getScene().Camera().GetViewMatrix());
-
+*/
         //bind VAO
 
         glBindVertexArray(VAO_ID);
@@ -113,7 +113,7 @@ public class DebugDraw {
         glDisableVertexAttribArray(1);
         glBindVertexArray(0);
 
-        shader.DetachShader();
+      /*  shader.DetachShader();*/
     }
     //ADD LINE2d method
 

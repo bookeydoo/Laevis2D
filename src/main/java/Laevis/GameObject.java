@@ -64,6 +64,7 @@ public class GameObject {
     public void UpdateGameObjects(float DeltaTime) {
         for (int i = 0; i < Components.size(); i++) {
             Components.get(i).UpdateComponent(DeltaTime);
+
         }
     }
 

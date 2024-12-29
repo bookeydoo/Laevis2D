@@ -11,7 +11,7 @@ public class PreFabs {
         SpriteRenderer renderer=new SpriteRenderer();
         renderer.setSprite(sprite);
         block.AddComponent(renderer);
-
+        System.out.println("object created!!!");
         return block;
     }
 }
