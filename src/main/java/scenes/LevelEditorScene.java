@@ -88,8 +88,8 @@ w            gameObject2.AddComponent(gameObject2SpriteRendrer);
             AssetPool.GetShader("Assets/Shaders/default.glsl");
 
             AssetPool.AddSpriteSheet(
-                "Assets/Images/spritesheet.png",
-                new SpriteSheet(AssetPool.GetTexture("Assets/Images/spritesheet.png"), 16, 16, 26, 0)
+                "Assets/Images/decorationsAndBlocks.png",
+                new SpriteSheet(AssetPool.GetTexture("Assets/Images/decorationsAndBlocks.png"), 16, 16, 81, 0)
             );
         }
         private  int spriteindex=0;
