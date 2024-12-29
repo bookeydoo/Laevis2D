@@ -6,9 +6,12 @@
     import Laevis.PreFabs;
     import Laevis.Transform;
     import LaevisUtilities.AssetPool;
+    import Renderer.DebugDraw;
     import imgui.ImGui;
     import imgui.ImVec2;
+    import org.joml.Math;
     import org.joml.Vector2f;
+    import org.joml.Vector3f;
     import org.joml.Vector4f;
 
     public class LevelEditorScene extends Scene {
@@ -29,38 +32,33 @@
 
             this.Camera = new Camera(CameraOffsetLocal);
 
-            if(!levelloaded){
+            sprites = AssetPool.GetSpriteSheet("Assets/Images/spritesheet.png");
+
+
+            if(levelloaded){
                 this.gameObject1=GameObjects.get(0);
                 return;
             }
 
-             sprites = AssetPool.GetSpriteSheet("Assets/Images/spritesheet.png");
-            if(sprites==null){
-                System.err.println("sprites failed to load ");
-                return;
-            }
+
 
             Vector2f TransformPosition1 = new Vector2f(100, 100);
             Vector2f TransformScale1 = new Vector2f(128, 128);
 
-            Vector2f TransformPosition2 = new Vector2f(220, 100);
-            Vector2f TransformScale2 = new Vector2f(128, 128);
-
-            Vector2f TransformPosition3 = new Vector2f(340, 100);
-            Vector2f TransformScale3 = new Vector2f(128, 128);
-
-            Vector2f TransformPosition4 = new Vector2f(460, 100);
-            Vector2f TransformScale4 = new Vector2f(128, 128);
-
             //TODO try to fix the missing textures shit and implement proper imgui menus
             //added random z index values
             SpriteRenderer gameObject1Sprite=new SpriteRenderer();
+
             gameObject1 = new GameObject("Object 1", new Transform(TransformPosition1, TransformScale1),-1);
             gameObject1.AddComponent(gameObject1Sprite);
             gameObject1.AddComponent(new TestComponent());
             gameObject1Sprite.setColor(new Vector4f(1,1,1,1));
             this.AddGameObjectToScene(gameObject1);
             this.activegameobject=gameObject1;
+
+
+
+
 
     /*
             SpriteRenderer gameObject2SpriteRendrer=new SpriteRenderer();
@@ -70,7 +68,7 @@
             gameObject2Sprite.setTexture(AssetPool.GetTexture("x"));
             gameObject2SpriteRendrer.setSprite(gameObject2Sprite);
             gameObject2SpriteRendrer.setColor(new Vector4f(1,1,1,1));
-            gameObject2.AddComponent(gameObject2SpriteRendrer);
+w            gameObject2.AddComponent(gameObject2SpriteRendrer);
             this.AddGameObjectToScene(gameObject2);
     */
 
@@ -98,10 +96,17 @@
         private float spriteFliptime=0.2f;
         private float spriteFliptimeleft=0.0f;
 
+        float t=0.0f;
+
         @Override
         public void SceneUpdate(float DeltaTime) {
 
             mouseControls.UpdateComponent(DeltaTime);
+            float x=((float) Math.sin(t)*200f)+600;
+            float y=((float) Math.cos(t)*200f)+400;
+
+            t+=0.05f;
+            DebugDraw.addLine2d(new Vector2f(600,400),new Vector2f(x,y),new Vector3f(0,0,1));
 
             System.out.println("FPS: " + (1.0f / DeltaTime));
 
@@ -142,6 +147,7 @@
                     GameObject object= PreFabs.generateSpriteObject(sprite,spriteWidth,spriteHeight);
                     //attach this to mouse cursor
                     mouseControls.pickupObject(object);
+                    System.out.println("BUtton"+i+"clicked");
 
                 }
                 ImGui.popID();

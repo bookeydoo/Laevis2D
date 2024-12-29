@@ -26,8 +26,7 @@ public class DebugDraw {
 
     //6 floats per vertex ,2 vertices per line
     private static float[] VertexArray=new float[MAX_LINES*6*2];
-   /* private static Shader shader= AssetPool.GetShader("assets/shaders/debugLine2d.glsl");
-*/
+    private static Shader shader= AssetPool.GetShader("assets/shaders/debugLine2D.glsl");
     private static boolean started=false;
     private static int VAO_ID;
     private static int VBO_ID;
@@ -49,6 +48,8 @@ public class DebugDraw {
 
         glVertexAttribPointer(1,3,GL_FLOAT,false,6*Float.BYTES,3*Float.BYTES);
         glEnableVertexAttribArray(1);
+
+        glLineWidth(4.0f);
 
     }
 
@@ -75,7 +76,7 @@ public class DebugDraw {
         int index=0;
         for(Line2D line :Lines){
             for(int i=0;i<2;i++){
-                Vector2f position= i==0 ? line.getFrom() :line.getFrom();
+                Vector2f position= i==0 ? line.getFrom() :line.getTo();
                 Vector3f color=line.getColor();
 
                 //load position
@@ -85,8 +86,8 @@ public class DebugDraw {
 
                 //load color
                 VertexArray[index+3]=color.x;
-                VertexArray[index+3]=color.y;
-                VertexArray[index+3]=color.z;
+                VertexArray[index+4]=color.y;
+                VertexArray[index+5]=color.z;
                 index+=6;
             }
         }
@@ -95,10 +96,9 @@ public class DebugDraw {
 
 
         //use shader
-   /*     shader.UseShader();
+        shader.UseShader();
         shader.UploadMatrix4f("uProjection", Window.getScene().Camera().GetProjectionMatrix());
         shader.UploadMatrix4f("uView", Window.getScene().Camera().GetViewMatrix());
-*/
         //bind VAO
 
         glBindVertexArray(VAO_ID);
@@ -106,7 +106,7 @@ public class DebugDraw {
         glEnableVertexAttribArray(1);
 
         //draw batch
-        glDrawArrays(GL_LINES,0,Lines.size());
+        glDrawArrays(GL_LINES,0,Lines.size()*6*2);
 
         //disable location
         glDisableVertexAttribArray(0);
@@ -114,6 +114,7 @@ public class DebugDraw {
         glBindVertexArray(0);
 
       /*  shader.DetachShader();*/
+        shader.DetachShader();
     }
     //ADD LINE2d method
 

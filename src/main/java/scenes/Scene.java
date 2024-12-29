@@ -10,6 +10,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.security.cert.TrustAnchor;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -19,7 +20,7 @@ public abstract class Scene {
     private boolean IsRunning = false;
     protected List<GameObject> GameObjects = new ArrayList<>();
     protected  GameObject activegameobject=null;
-    protected boolean levelloaded=false;
+    protected boolean levelloaded= true;
     public Scene() {
 
     }

@@ -35,9 +35,9 @@ public class Window {
         this.Title = "Game Engine";
 
 
-        this.r = 0;
-        this.g = 0;
-        this.b = 0;
+        this.r = 1;
+        this.g = 1;
+        this.b = 1;
         this.a = 0;
     }
 
